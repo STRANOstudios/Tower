@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 [DisallowMultipleComponent]
 public class HealthBar : MonoBehaviour
