@@ -7,9 +7,18 @@ public class IAController : MonoBehaviour
 
     NavMeshAgent agent;
 
-    void Start()
+    private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
-        agent.SetDestination(target.position);
+    }
+
+    void Start()
+    {
+        agent.SetDestination(GameObject.Find("Target").transform.position);
+    }
+
+    private void OnEnable()
+    {
+        agent.SetDestination(GameObject.Find("Target").transform.position);
     }
 }

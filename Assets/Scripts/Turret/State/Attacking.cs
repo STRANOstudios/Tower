@@ -2,8 +2,8 @@
 
 internal class Attacking : State
 {
-    readonly float rotationSpeed = 2.0f;
-    readonly float fireRatio = 1f;
+    readonly float rotationSpeed = 20.0f;
+    readonly float fireRatio = 0.1f;
 
     ParticleSystem particleSystem;
 
@@ -37,15 +37,13 @@ internal class Attacking : State
 
             if (particleSystem && Time.time - timeSinceLastFire > 1 / fireRatio)
             {
-                Debug.Log("shoot");
-
                 timeSinceLastFire = Time.time;
                 particleSystem.Emit(1);
             }
         }
         else
         {
-            nextState = new Tracking(turret, barrel);
+            nextState = new Idle(turret, barrel);
             stage = EVENT.EXIT;
         }
     }

@@ -7,10 +7,23 @@ public class Health : MonoBehaviour
     [SerializeField] private float maxHealth = 100f;
     [SerializeField] Slider HealthBar;
 
+    private float currentHealth;
+
     private void Awake()
     {
-        HealthBar.maxValue = maxHealth;
-        HealthBar.value = maxHealth;
+        currentHealth = maxHealth;
+    }
+
+    private void Start()
+    {
+        HealthBar.maxValue = currentHealth;
+        HealthBar.value = currentHealth;
+    }
+
+    private void OnEnable()
+    {
+        currentHealth = maxHealth;
+        HealthBar.value = currentHealth;
     }
 
     public void OnParticleCollision(GameObject other)
@@ -23,11 +36,12 @@ public class Health : MonoBehaviour
 
     private void TakeDamage(float damage)
     {
-        maxHealth -= damage;
-        HealthBar.value = maxHealth;
+        currentHealth -= damage;
+        HealthBar.value = currentHealth;
 
-        Debug.Log(HealthBar.value);
-
-        if(maxHealth <= 0) this.gameObject.SetActive(false);
+        if (currentHealth <= 0)
+        {
+            ObjectPoolerManager.ReturnObjectsToPool(gameObject);
+        }
     }
 }

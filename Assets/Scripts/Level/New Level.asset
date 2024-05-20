@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36582d6bac8b07f4c9125c2b032b2406, type: 3}
+  m_Name: New Level
+  m_EditorClassIdentifier: 
+  mazePrefab: {fileID: 0}
+  enemyPrefab: {fileID: 4254696236412303939, guid: cbe2c5cef82f34a48abe58d6cac71dc0, type: 3}
+  timeBetweenWaves: 6
+  waves:
+  - enemies: 4
+    timeBetweenSpawns: 1
+  - enemies: 2
+    timeBetweenSpawns: 1
