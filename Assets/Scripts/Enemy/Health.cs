@@ -5,9 +5,8 @@ using UnityEngine.UI;
 public class Health : MonoBehaviour
 {
     [SerializeField] private float maxHealth = 100f;
-    [SerializeField] Slider HealthBar;
-
     private float currentHealth;
+    private Slider healthBar;
 
     private void Awake()
     {
@@ -16,32 +15,52 @@ public class Health : MonoBehaviour
 
     private void Start()
     {
-        HealthBar.maxValue = currentHealth;
-        HealthBar.value = currentHealth;
+        healthBar = GetComponent<Slider>(); // Find the Slider component
+        UpdateHealthUI();
     }
 
     private void OnEnable()
     {
         currentHealth = maxHealth;
-        HealthBar.value = currentHealth;
+        UpdateHealthUI();
     }
 
+    /// <summary>
+    /// Called when a particle collides with this object
+    /// </summary>
+    /// <param name="other"></param>
     public void OnParticleCollision(GameObject other)
     {
         if (other.CompareTag("bullet"))
         {
-            TakeDamage(other.GetComponent<Damage>().GetDamage);
+            if (other.TryGetComponent<Damage>(out var damageComponent))
+            {
+                TakeDamage(damageComponent.GetDamage);
+            }
         }
     }
 
     private void TakeDamage(float damage)
     {
         currentHealth -= damage;
-        HealthBar.value = currentHealth;
+        UpdateHealthUI();
 
         if (currentHealth <= 0)
         {
-            ObjectPoolerManager.ReturnObjectsToPool(gameObject);
+            ReturnToPool();
         }
+    }
+
+    private void UpdateHealthUI()
+    {
+        if (healthBar != null)
+        {
+            healthBar.value = currentHealth;
+        }
+    }
+
+    private void ReturnToPool()
+    {
+        ObjectPoolerManager.ReturnObjectToPool(gameObject);
     }
 }

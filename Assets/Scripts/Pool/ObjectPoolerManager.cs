@@ -37,7 +37,7 @@ public class ObjectPoolerManager : MonoBehaviour
         return spawnableObj;
     }
 
-    public static void ReturnObjectsToPool(GameObject obj)
+    public static void ReturnObjectToPool(GameObject obj)
     {
         string goName = obj.name[..^7]; // remove the "(Clone)"
         PooledObejctInfo pool = ObjectPools.Find(x => x.LoopupString == goName);

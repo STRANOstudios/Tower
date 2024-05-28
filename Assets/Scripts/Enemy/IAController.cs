@@ -3,9 +3,8 @@ using UnityEngine.AI;
 
 public class IAController : MonoBehaviour
 {
-    [SerializeField] Transform target;
-
     NavMeshAgent agent;
+    Vector3 target;
 
     private void Awake()
     {
@@ -14,11 +13,34 @@ public class IAController : MonoBehaviour
 
     void Start()
     {
-        agent.SetDestination(GameObject.Find("Target").transform.position);
+        SetDestination();
+    }
+
+    private void FixedUpdate()
+    {
+        // Check if the agent has reached its destination
+        if (agent.remainingDistance <= 1)
+        {
+            ReturnToPool();
+        }
     }
 
     private void OnEnable()
     {
-        agent.SetDestination(GameObject.Find("Target").transform.position);
+        SetDestination();
+    }
+
+    private void SetDestination()
+    {
+        target = GameObject.Find("Target").transform.position;
+        if (target != null)
+        {
+            agent.SetDestination(target);
+        }
+    }
+
+    private void ReturnToPool()
+    {
+        ObjectPoolerManager.ReturnObjectToPool(gameObject);
     }
 }

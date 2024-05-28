@@ -453,7 +453,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ff1c12cc656cc44897c19ad4781ee33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
 --- !u!114 &1507297887359293276
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -467,7 +466,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
-  HealthBar: {fileID: 1936298071897573775}
 --- !u!195 &8211114449260478229
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -556,7 +554,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
   m_FillRect: {fileID: 0}
   m_HandleRect: {fileID: 0}
