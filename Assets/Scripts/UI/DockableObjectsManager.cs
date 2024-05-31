@@ -1,73 +1,102 @@
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
-public class DockableObjectsManager : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
+[DisallowMultipleComponent]
+public class DockableObjectsManager : MonoBehaviour
 {
-    public GameObject objectPrefab; // Prefab dell'oggetto 3D da creare
-    public int maxObjectsPerDock = 3; // Numero massimo di oggetti associabili a ogni dock
+    [Header("Dock Settings")]
+    [SerializeField, Range(0, 10)] private int maxObjects = 3;
 
-    private GameObject createdObject;
-    private Camera mainCamera;
-    private bool isDragging = false;
-    private List<GameObject> dockedObjects = new List<GameObject>();
+    private readonly Stack<GameObject> objectStack = new Stack<GameObject>();
 
-    private void Awake()
+    private bool hasSpeedBoost = false;
+    private bool hasDamageBoost = false;
+
+    /// <summary>
+    /// Called when an object is docked
+    /// </summary>
+    /// <param name="gameObject"></param>
+    public bool OnDocking(GameObject gameObject)
     {
-        mainCamera = Camera.main;
+        if (gameObject.TryGetComponent<Boost>(out var boostComponent))
+        {
+            switch (boostComponent.Type)
+            {
+                case Boost.BoostType.Speed:
+                    if (hasSpeedBoost) return false;
+                    hasSpeedBoost = true;
+                    break;
+                case Boost.BoostType.Damage:
+                    if (hasDamageBoost) return false;
+                    hasDamageBoost = true;
+                    break;
+            }
+            maxObjects++;
+        }
+        else
+        {
+            if (objectStack.Count >= maxObjects) return false;
+        }
+
+        objectStack.Push(gameObject);
+        gameObject.transform.SetParent(transform);
+        UpdateStackPositions();
+        return true;
     }
 
-    public void OnPointerDown(PointerEventData eventData)
+    /// <summary>
+    /// Called when an object is undocked
+    /// </summary>
+    /// <param name="gameObject"></param>
+    public void OnUndocking(GameObject gameObject)
     {
-        // Crea un nuovo oggetto quando il pulsante TextMeshPro viene premuto
-        if (eventData.pointerPress.gameObject.GetComponent<TextMeshProUGUI>() != null)
+        if (gameObject.TryGetComponent<Boost>(out var boostComponent))
         {
-            Vector3 spawnPosition = mainCamera.transform.position + mainCamera.transform.forward * 5f; // Posizione di spawn dell'oggetto
-            createdObject = Instantiate(objectPrefab, spawnPosition, Quaternion.identity);
-            isDragging = true;
+            switch (boostComponent.Type)
+            {
+                case Boost.BoostType.Speed:
+                    hasSpeedBoost = false;
+                    break;
+                case Boost.BoostType.Damage:
+                    hasDamageBoost = false;
+                    break;
+            }
+            maxObjects--;
+        }
+
+        if (objectStack.Count > 0 && objectStack.Peek() == gameObject)
+        {
+            objectStack.Pop();
+            UpdateStackPositions();
         }
     }
 
-    public void OnBeginDrag(PointerEventData eventData)
+    private void UpdateStackPositions()
     {
-        // Inizia a trascinare l'oggetto
-    }
+        float totalHeight = 0.1f;
 
-    public void OnDrag(PointerEventData eventData)
-    {
-        // Trascina l'oggetto in base al movimento del mouse
-        if (isDragging)
+        foreach (var obj in objectStack)
         {
-            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out RaycastHit hit))
+            if (obj.TryGetComponent<Collider>(out var collider))
             {
-                createdObject.transform.position = hit.point;
+                totalHeight += collider.bounds.size.y;
             }
+        }
+
+        foreach (var obj in objectStack)
+        {
+            Vector3 newPosition = new Vector3(0f, totalHeight, 0f);
+            obj.transform.localPosition = newPosition;
+            totalHeight -= GetObjectHeight(obj);
         }
     }
 
-    public void OnEndDrag(PointerEventData eventData)
+    private float GetObjectHeight(GameObject obj)
     {
-        // Termina il trascinamento dell'oggetto
-        isDragging = false;
-
-        // Controlla se l'oggetto è stato rilasciato su un oggetto con tag "dock"
-        if (eventData.pointerCurrentRaycast.gameObject.CompareTag("Dock"))
+        if (obj.TryGetComponent<Collider>(out var collider))
         {
-            GameObject dock = eventData.pointerCurrentRaycast.gameObject;
-
-            // Controlla se il dock ha raggiunto il limite massimo di oggetti associabili
-            if (dockedObjects.Count < maxObjectsPerDock)
-            {
-                dockedObjects.Add(createdObject);
-                createdObject.transform.SetParent(dock.transform); // Associa l'oggetto al dock
-            }
-            else
-            {
-                Debug.Log("Il dock ha raggiunto il limite massimo di oggetti associabili.");
-                Destroy(createdObject); // Distruggi l'oggetto se il dock ha raggiunto il limite
-            }
+            return collider.bounds.size.y;
         }
+        return 0f;
     }
 }

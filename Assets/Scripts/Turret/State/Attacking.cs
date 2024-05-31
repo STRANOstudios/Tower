@@ -3,22 +3,30 @@
 internal class Attacking : State
 {
     readonly float rotationSpeed = 20.0f;
-    readonly float fireRatio = 0.1f;
-
-    ParticleSystem particleSystem;
+    float fireRatio = 0.1f;
 
     float timeSinceLastFire = 0f;
+    float fireRatioBackup;
+    private readonly ParticleSystem[] particleSystems;
 
     public Attacking(GameObject _turret, Transform _barrel) : base(_turret, _barrel)
     {
         name = STATE.TRACKING;
 
-        particleSystem = _turret.GetComponentInChildren<ParticleSystem>();
+        particleSystems = _turret.GetComponentsInChildren<ParticleSystem>();
+    }
+
+    private void Awake()
+    {
+        fireRatioBackup = fireRatio;
     }
 
     public override void Enter()
     {
-        particleSystem.Play();
+        for(int i = 0; i < particleSystems.Length; i++)
+        {
+            particleSystems[i].Play();
+        }
         base.Enter();
     }
 
@@ -35,10 +43,13 @@ internal class Attacking : State
 
             barrel.localRotation = Quaternion.Euler(-elevationAngle, 0f, 0f);
 
-            if (particleSystem && Time.time - timeSinceLastFire > 1 / fireRatio)
+            if (Time.time - timeSinceLastFire > 1 / fireRatio)
             {
                 timeSinceLastFire = Time.time;
-                particleSystem.Emit(1);
+                for (int i = 0; i < particleSystems.Length; i++)
+                {
+                    particleSystems[i].Emit(1);
+                }
             }
         }
         else
@@ -48,9 +59,30 @@ internal class Attacking : State
         }
     }
 
+    private void FixedUpdate()
+    {
+        Collider[] hitColliders = Physics.OverlapSphere(turret.transform.position, 2f, layerMask: 8);
+
+        foreach (Collider col in hitColliders)
+        {
+            Boost boost = col.transform.GetComponent<Boost>();
+            if(boost.Type != Boost.BoostType.Speed) continue;
+            fireRatio = fireRatioBackup / boost.BoostValue;
+        }
+    }
+
     public override void Exit()
     {
-        particleSystem.Stop();
+        for (int i = 0; i < particleSystems.Length; i++)
+        {
+            particleSystems[i].Stop();
+        }
         base.Exit();
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(turret.transform.position, 2f);
     }
 }

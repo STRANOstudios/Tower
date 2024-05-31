@@ -8,7 +8,7 @@ public class TurretController : MonoBehaviour
 
     public void Start()
     {
-        currentState = new Idle(gameObject, barrel);
+        ResetState();
     }
 
     private void Update()
@@ -17,5 +17,15 @@ public class TurretController : MonoBehaviour
         {
             currentState = currentState.Process();
         }
+    }
+
+    public void OnDragging()
+    {
+        currentState = new Dragging(gameObject, barrel);
+    }
+
+    public void ResetState()
+    {
+        currentState = new Idle(gameObject, barrel);
     }
 }

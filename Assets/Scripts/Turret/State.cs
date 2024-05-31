@@ -7,7 +7,8 @@ public class State
     {
         IDLE,
         TRACKING,
-        ATTACKING
+        ATTACKING,
+        DRAGGING
     }
 
     public enum EVENT
