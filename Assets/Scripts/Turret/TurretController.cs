@@ -65,4 +65,13 @@ public class TurretController : MonoBehaviour
     }
     public float GetDamage => damageDefault;
     public float GetFireRatio => fireRatioDefault;
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, attackDistance);
+
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, visionDistance);
+    }
 }

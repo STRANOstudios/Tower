@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-[DisallowMultipleComponent, RequireComponent(typeof(Slider))]
+[DisallowMultipleComponent]
 public class Health : MonoBehaviour
 {
     [SerializeField] private float maxHealth = 100f;
@@ -15,7 +15,8 @@ public class Health : MonoBehaviour
 
     private void Start()
     {
-        healthBar = GetComponent<Slider>(); // Find the Slider component
+        healthBar = GetComponentInChildren<Slider>(); // Find the Slider component
+        healthBar.maxValue = maxHealth;
         UpdateHealthUI();
     }
 
@@ -33,10 +34,8 @@ public class Health : MonoBehaviour
     {
         if (other.CompareTag("bullet"))
         {
-            if (other.TryGetComponent<TurretController>(out var damageComponent))
-            {
-                TakeDamage(damageComponent.Damage);
-            }
+            var turretController = other.GetComponentInParent<TurretController>();
+            if (turretController != null) TakeDamage(turretController.Damage);
         }
     }
 
@@ -53,8 +52,8 @@ public class Health : MonoBehaviour
 
     private void UpdateHealthUI()
     {
-        if (healthBar != null)
-        {
+        if (healthBar)
+        {            
             healthBar.value = currentHealth;
         }
     }
