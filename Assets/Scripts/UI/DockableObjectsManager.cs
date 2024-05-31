@@ -7,7 +7,7 @@ public class DockableObjectsManager : MonoBehaviour
     [Header("Dock Settings")]
     [SerializeField, Range(0, 10)] private int maxObjects = 3;
 
-    private readonly Stack<GameObject> objectStack = new Stack<GameObject>();
+    private readonly Stack<GameObject> objectStack = new();
 
     private bool hasSpeedBoost = false;
     private bool hasDamageBoost = false;
@@ -41,6 +41,7 @@ public class DockableObjectsManager : MonoBehaviour
         objectStack.Push(gameObject);
         gameObject.transform.SetParent(transform);
         UpdateStackPositions();
+
         return true;
     }
 
@@ -71,23 +72,37 @@ public class DockableObjectsManager : MonoBehaviour
         }
     }
 
+
+    private void SetBoost(GameObject gameObject)
+    {
+        if (gameObject.TryGetComponent<TurretController>(out var controller))
+        {
+            if (hasSpeedBoost) controller.FireRatio = controller.GetFireRatio / 2;
+            else controller.FireRatio = controller.GetFireRatio;
+
+            if (hasDamageBoost) controller.Damage = controller.GetDamage * 2;
+            else controller.Damage = controller.GetDamage;
+        }
+    }
+
     private void UpdateStackPositions()
     {
-        float totalHeight = 0.1f;
+        float totalHeight = 0f;
 
         foreach (var obj in objectStack)
         {
             if (obj.TryGetComponent<Collider>(out var collider))
             {
-                totalHeight += collider.bounds.size.y;
+                totalHeight += collider.bounds.size.y + .3f;
             }
         }
 
         foreach (var obj in objectStack)
         {
-            Vector3 newPosition = new Vector3(0f, totalHeight, 0f);
+            Vector3 newPosition = new (0f, totalHeight, 0f);
             obj.transform.localPosition = newPosition;
             totalHeight -= GetObjectHeight(obj);
+            SetBoost(obj);
         }
     }
 
@@ -99,4 +114,13 @@ public class DockableObjectsManager : MonoBehaviour
         }
         return 0f;
     }
+
+    /// <summary>
+    /// Returns true if the object has a speed boost
+    /// </summary>
+    public bool HasSpeedBoost => hasSpeedBoost;
+    /// <summary>
+    /// Returns true if the object has a damage boost
+    /// </summary>
+    public bool HasDamageBoost => hasDamageBoost;
 }

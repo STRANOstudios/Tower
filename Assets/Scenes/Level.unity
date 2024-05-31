@@ -1263,6 +1263,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   barrel: {fileID: 1928446890}
+  attackDistance: 10
+  visionDistance: 20
+  rotationSpeed: 10
+  fireRatio: 1
+  damage: 10
 --- !u!4 &95312165
 Transform:
   m_ObjectHideFlags: 0
@@ -3705,7 +3710,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: f5f5c47ada67f154bb56ff35cd409959, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -21345,6 +21350,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   barrel: {fileID: 901799681}
+  attackDistance: 10
+  visionDistance: 20
+  rotationSpeed: 10
+  fireRatio: 15
+  damage: 10
 --- !u!4 &665736771
 Transform:
   m_ObjectHideFlags: 0
@@ -23195,11 +23205,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 391cf2d3f57ce394c95396fcdceb55da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 50
-  targetLayer:
-    serializedVersion: 2
-    m_Bits: 256
-  radius: 2
 --- !u!199 &902896510
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -34093,11 +34098,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 391cf2d3f57ce394c95396fcdceb55da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 50
-  targetLayer:
-    serializedVersion: 2
-    m_Bits: 256
-  radius: 2
 --- !u!199 &1085534929
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -46296,7 +46296,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 0.2, z: 1}
+  m_Size: {x: 1, y: 0.3, z: 1}
   m_Center: {x: 0, y: 0.1, z: 0}
 --- !u!4 &1351682572
 Transform:
@@ -48361,6 +48361,120 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!1001 &1647002341
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 78632712635148170, guid: cbe2c5cef82f34a48abe58d6cac71dc0, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 612081060473657751, guid: cbe2c5cef82f34a48abe58d6cac71dc0, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 612081060473657751, guid: cbe2c5cef82f34a48abe58d6cac71dc0, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1507297887359293276, guid: cbe2c5cef82f34a48abe58d6cac71dc0, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3722210643336968577, guid: cbe2c5cef82f34a48abe58d6cac71dc0, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3722210643336968577, guid: cbe2c5cef82f34a48abe58d6cac71dc0, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3722210643336968577, guid: cbe2c5cef82f34a48abe58d6cac71dc0, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3722210643336968577, guid: cbe2c5cef82f34a48abe58d6cac71dc0, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3722210643336968577, guid: cbe2c5cef82f34a48abe58d6cac71dc0, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3722210643336968577, guid: cbe2c5cef82f34a48abe58d6cac71dc0, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3722210643336968577, guid: cbe2c5cef82f34a48abe58d6cac71dc0, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 3722210643336968577, guid: cbe2c5cef82f34a48abe58d6cac71dc0, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 3722210643336968577, guid: cbe2c5cef82f34a48abe58d6cac71dc0, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3722210643336968577, guid: cbe2c5cef82f34a48abe58d6cac71dc0, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3722210643336968577, guid: cbe2c5cef82f34a48abe58d6cac71dc0, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -11.394521
+      objectReference: {fileID: 0}
+    - target: {fileID: 3722210643336968577, guid: cbe2c5cef82f34a48abe58d6cac71dc0, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3722210643336968577, guid: cbe2c5cef82f34a48abe58d6cac71dc0, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3722210643336968577, guid: cbe2c5cef82f34a48abe58d6cac71dc0, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3722210643336968577, guid: cbe2c5cef82f34a48abe58d6cac71dc0, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3722210643336968577, guid: cbe2c5cef82f34a48abe58d6cac71dc0, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 1.528436
+      objectReference: {fileID: 0}
+    - target: {fileID: 3722210643336968577, guid: cbe2c5cef82f34a48abe58d6cac71dc0, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3722210643336968577, guid: cbe2c5cef82f34a48abe58d6cac71dc0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3722210643336968577, guid: cbe2c5cef82f34a48abe58d6cac71dc0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3722210643336968577, guid: cbe2c5cef82f34a48abe58d6cac71dc0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4254696236412303939, guid: cbe2c5cef82f34a48abe58d6cac71dc0, type: 3}
+      propertyPath: m_Name
+      value: Enemy (Test)
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 1579940846157476738, guid: cbe2c5cef82f34a48abe58d6cac71dc0, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: cbe2c5cef82f34a48abe58d6cac71dc0, type: 3}
 --- !u!1 &1655307050
 GameObject:
   m_ObjectHideFlags: 0
@@ -48977,11 +49091,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 391cf2d3f57ce394c95396fcdceb55da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 50
-  targetLayer:
-    serializedVersion: 2
-    m_Bits: 256
-  radius: 2
 --- !u!199 &1746216627
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -54448,7 +54557,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 554c2d6d15e3d3940b7d7ed4c43b48fd, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -59579,6 +59688,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   barrel: {fileID: 68880940}
+  attackDistance: 10
+  visionDistance: 20
+  rotationSpeed: 10
+  fireRatio: 1
+  damage: 10
 --- !u!4 &1836365923
 Transform:
   m_ObjectHideFlags: 0
@@ -70357,7 +70471,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 0.2, z: 1}
+  m_Size: {x: 1, y: 0.3, z: 1}
   m_Center: {x: 0, y: 0.1, z: 0}
 --- !u!114 &1956704715
 MonoBehaviour:
@@ -70615,7 +70729,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 748d103796445ee4bbe74a999028769f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxObjects: 1
+  maxObjects: 10
 --- !u!1 &2013236433
 GameObject:
   m_ObjectHideFlags: 0
@@ -71483,11 +71597,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 391cf2d3f57ce394c95396fcdceb55da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 50
-  targetLayer:
-    serializedVersion: 2
-    m_Bits: 256
-  radius: 2
 --- !u!199 &2072475891
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -81917,11 +82026,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 391cf2d3f57ce394c95396fcdceb55da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 50
-  targetLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  radius: 1
 --- !u!114 &922888838081281242
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -81935,6 +82039,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   barrel: {fileID: 6928404412829158239}
+  attackDistance: 10
+  visionDistance: 20
+  rotationSpeed: 10
+  fireRatio: 1
+  damage: 10
 --- !u!1 &935569644317230106
 GameObject:
   m_ObjectHideFlags: 0
@@ -96912,3 +97021,4 @@ SceneRoots:
   - {fileID: 95312165}
   - {fileID: 1956704712}
   - {fileID: 1351682572}
+  - {fileID: 1647002341}

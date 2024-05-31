@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ObjectPoolerManager : MonoBehaviour
 {
-    public static List<PooledObejctInfo> ObjectPools = new List<PooledObejctInfo>();
+    public static List<PooledObejctInfo> ObjectPools = new();
 
     public static GameObject SpawnObject(GameObject objectToSpawn, Vector3 spawnPosition, Quaternion spawnRotation, Transform parent = null)
     {

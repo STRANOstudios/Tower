@@ -14,12 +14,12 @@ public class Idle : State
 
     public override void Update()
     {
-        if(GetClosestEnemyInArea(visionDistance) != null)
+        if(GetClosestEnemyInArea(_visionDistance) != null)
         {
             nextState = new Tracking(turret, barrel);
             stage = EVENT.EXIT;
         }
-        else if(GetClosestEnemyInArea(attackDistance) != null)
+        else if(GetClosestEnemyInArea(_attackDistance) != null)
         {
             nextState = new Attacking(turret, barrel);
             stage = EVENT.EXIT;

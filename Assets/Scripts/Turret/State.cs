@@ -22,21 +22,41 @@ public class State
     protected Transform barrel;
     protected State nextState;
 
-    protected float visionDistance = 20.0f;
-    protected float attackDistance = 10.0f;
+    protected float _visionDistance = 20.0f;
+    protected float _attackDistance = 10.0f;
+    protected float _rotationSpeed = 2.0f;
+    protected float _fireRatio = 0.1f;
 
-    public State(GameObject _turret, Transform barrel)
+    /// <summary>
+    /// Initializes a new instance of the <see cref="State"/> class.
+    /// </summary>
+    /// <param name="_turret"></param>
+    /// <param name="_barrel"></param>
+    public State(GameObject _turret, Transform _barrel)
     {
         turret = _turret;
-        this.barrel = barrel;
+        barrel = _barrel;
 
         stage = EVENT.ENTER;
     }
 
+    /// <summary>
+    /// Called when the state is entered.
+    /// </summary>
     public virtual void Enter() { stage = EVENT.UPDATE; }
+    /// <summary>
+    /// Called when the state is updated.
+    /// </summary>
     public virtual void Update() { stage = EVENT.UPDATE; }
+    /// <summary>
+    /// Called when the state is exited.
+    /// </summary>
     public virtual void Exit() { stage = EVENT.EXIT; }
 
+    /// <summary>
+    /// Process the state.
+    /// </summary>
+    /// <returns></returns>
     public State Process()
     {
         if (stage == EVENT.ENTER) Enter();
@@ -49,6 +69,11 @@ public class State
         return this;
     }
 
+    /// <summary>
+    /// Get the closest enemy in area.
+    /// </summary>
+    /// <param name="radius"></param>
+    /// <returns></returns>
     public GameObject GetClosestEnemyInArea(float radius)
     {
         var position = turret.transform.position;
@@ -84,5 +109,29 @@ public class State
         }
 
         return closestEnemy;
+    }
+
+    public float FireRatio
+    {
+        get { return _fireRatio; }
+        set { _fireRatio = value; }
+    }
+
+    public float RotationSpeed
+    {
+        get { return _rotationSpeed; }
+        set { _rotationSpeed = value; }
+    }
+
+    public float AttackDistance
+    {
+        get { return _attackDistance; }
+        set { _attackDistance = value; }
+    }
+
+    public float VisionDistance
+    {
+        get { return _visionDistance; }
+        set { _visionDistance = value; }
     }
 }

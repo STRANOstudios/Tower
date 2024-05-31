@@ -33,9 +33,9 @@ public class Health : MonoBehaviour
     {
         if (other.CompareTag("bullet"))
         {
-            if (other.TryGetComponent<Damage>(out var damageComponent))
+            if (other.TryGetComponent<TurretController>(out var damageComponent))
             {
-                TakeDamage(damageComponent.GetDamage);
+                TakeDamage(damageComponent.Damage);
             }
         }
     }

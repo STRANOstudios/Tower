@@ -29,6 +29,8 @@ public class DragAndDrop3D : MonoBehaviour
         offset = transform.position - GetMouseWorldPosition();
         oldPosition = transform.position;
         if (turretController) turretController.OnDragging();
+
+        gameObject.GetComponent<BoxCollider>().enabled = false;
     }
 
     void OnMouseDrag()
@@ -39,6 +41,8 @@ public class DragAndDrop3D : MonoBehaviour
     void OnMouseUp()
     {
         CheckForDockableObject();
+
+        gameObject.GetComponent<BoxCollider>().enabled = true;
     }
 
     private Vector3 GetMouseWorldPosition()
