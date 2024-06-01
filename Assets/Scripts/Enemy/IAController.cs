@@ -6,6 +6,9 @@ public class IAController : MonoBehaviour
     NavMeshAgent agent;
     Vector3 target;
 
+    public delegate void TouchDown();
+    public static event TouchDown InTheTarget;
+
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -16,7 +19,7 @@ public class IAController : MonoBehaviour
         SetDestination();
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         // Check if the agent has reached its destination
         if (agent.remainingDistance <= 1)
@@ -41,6 +44,7 @@ public class IAController : MonoBehaviour
 
     private void ReturnToPool()
     {
+        InTheTarget?.Invoke();
         ObjectPoolerManager.ReturnObjectToPool(gameObject);
     }
 }

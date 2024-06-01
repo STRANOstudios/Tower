@@ -16,7 +16,17 @@ MonoBehaviour:
   enemyPrefab: {fileID: 4254696236412303939, guid: cbe2c5cef82f34a48abe58d6cac71dc0, type: 3}
   timeBetweenWaves: 6
   waves:
-  - enemies: 4
-    timeBetweenSpawns: 1
+  - enemies: 0
+    timeBetweenSpawns: 3
   - enemies: 2
+    timeBetweenSpawns: 1.5
+  - enemies: 5
+    timeBetweenSpawns: 1.5
+  - enemies: 8
+    timeBetweenSpawns: 1
+  - enemies: 10
+    timeBetweenSpawns: 1
+  - enemies: 20
+    timeBetweenSpawns: 1
+  - enemies: 50
     timeBetweenSpawns: 1

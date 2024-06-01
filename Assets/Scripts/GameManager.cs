@@ -1,18 +1,38 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private static GameManager _instance;
+    private bool isGameRunning = true;
+
+    public static GameManager Instance { get { return _instance; } }
+
+    private void Awake()
     {
-        
+        if (_instance == null)
+        {
+            _instance = this as GameManager;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
-    // Update is called once per frame
     void Update()
     {
+        if (SceneManager.GetActiveScene().buildIndex == 0) return;
         
+        if (Input.GetKeyDown(KeyCode.Escape)) ToggleGameRunning();
     }
+
+    public void ToggleGameRunning()
+    {
+        isGameRunning = !isGameRunning;
+        Time.timeScale = isGameRunning ? 1 : 0;
+    }
+
+    public bool IsGameRunning => isGameRunning;
 }

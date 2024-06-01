@@ -1,22 +1,33 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
+[DisallowMultipleComponent]
 public class MenuController : MonoBehaviour
 {
     [Header("Levels To Load")]
     [SerializeField, Tooltip("The name of the scene to be loaded")] private string sceneToBeLoad;
 
-    [Header("Reference")]
-    [SerializeField] private Transform menuButtons;
+    [Header("References")]
+    [SerializeField, Tooltip("The canvas that contains the menu")] private GameObject menuCanvas;
+    [SerializeField] private Slider timeSlider;
 
-    [Header("Settings")]
-    [SerializeField, Range(0.1f, 10f)] private float secMenuAnim = 10f;
+    private bool previousState;
 
-    private float elapsedTime = 0f;
+    private void Start()
+    {
+        previousState = GameManager.Instance.IsGameRunning;
+    }
 
-    public delegate void MenuControllerDelegate();
-    public static event MenuControllerDelegate Resume;
+    private void Update()
+    {
+        if (previousState != GameManager.Instance.IsGameRunning)
+        {
+            menuCanvas.SetActive(!GameManager.Instance.IsGameRunning);
+            timeSlider.interactable = GameManager.Instance.IsGameRunning;
+            previousState = GameManager.Instance.IsGameRunning;
+        }
+    }
 
     #region Menu Buttons
 
@@ -38,31 +49,6 @@ public class MenuController : MonoBehaviour
 #endif
     }
 
-    public void OptionsButton(float angle)
-    {
-        if (menuButtons)
-        {
-              StartCoroutine(AnimRotation(angle));
-        }
-    }
-
-    private IEnumerator AnimRotation(float targetAngle = 180f)
-    {
-        float startAngle = menuButtons.rotation.eulerAngles.y;
-
-        while (elapsedTime < secMenuAnim)
-        {
-            float t = elapsedTime / secMenuAnim;
-            float angle = Mathf.Lerp(startAngle, targetAngle, t);
-            menuButtons.rotation = Quaternion.Euler(0, angle, 0);
-
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-
-        menuButtons.rotation = Quaternion.Euler(0, targetAngle, 0);
-    }
-
     public void ReturnButton()
     {
 #if UNITY_EDITOR
@@ -70,11 +56,6 @@ public class MenuController : MonoBehaviour
 #else
         SceneManager.LoadScene(0);
 #endif
-    }
-
-    public void ResumeButton()
-    {
-        Resume?.Invoke();
     }
 
     #endregion
