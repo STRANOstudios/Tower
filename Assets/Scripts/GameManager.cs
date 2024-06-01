@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         if (SceneManager.GetActiveScene().buildIndex == 0) return;
-        
+
         if (Input.GetKeyDown(KeyCode.Escape)) ToggleGameRunning();
     }
 
@@ -34,5 +34,9 @@ public class GameManager : MonoBehaviour
         Time.timeScale = isGameRunning ? 1 : 0;
     }
 
-    public bool IsGameRunning => isGameRunning;
+    public bool IsGameRunning
+    {
+        get { return isGameRunning; }
+        set { isGameRunning = value; }
+    }
 }

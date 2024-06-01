@@ -58,5 +58,10 @@ public class MenuController : MonoBehaviour
 #endif
     }
 
+    public void MenuButton()
+    {
+        GameManager.Instance.ToggleGameRunning();
+    }
+
     #endregion
 }
